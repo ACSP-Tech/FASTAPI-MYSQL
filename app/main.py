@@ -2,7 +2,7 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from .databasesetup import init_db 
-from .setup_main import configure_cors
+from .setup_main import configure_cors, register_exception_handlers
 from .middleware import LoggingMiddleware 
 
 #importing routers
@@ -35,6 +35,9 @@ app = FastAPI(
 
 # Defining the CORS function and any other custom middleware
 configure_cors(app)
+
+#handling pydantic validations error
+register_exception_handlers(app)
 
 # Adding logging middleware
 app.add_middleware(LoggingMiddleware)
