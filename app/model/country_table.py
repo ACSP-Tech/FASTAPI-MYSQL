@@ -7,14 +7,14 @@ from pydantic import field_validator
 
 class Country(SQLModel, table=True):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()),sa_column=Column(String(36), primary_key=True, nullable=False))
-    name: str = Field(sa_column=Column(String, unique=True, nullable=False, index=True))
-    capital: Optional[str] = Field(default=None, sa_column=Column(String, nullable=True))
-    region: Optional[str] = Field(default=None, sa_column=Column(String, nullable=True))
+    name: str = Field(sa_column=Column(String(100), unique=True, nullable=False, index=True))
+    capital: Optional[str] = Field(default=None, sa_column=Column(String(100), nullable=True))
+    region: Optional[str] = Field(default=None, sa_column=Column(String(100), nullable=True))
     population: int = Field(default=None, sa_column=Column(Integer, nullable=False, index=True))
-    currency_code: str = Field(default=None, sa_column=Column(String, nullable=False, index=True))
-    exchange_rate: float = Field(default=None, sa_column=Column(FLOAT, nullable=False, index=True))
-    estimated_gdp: float = Field(default=None, sa_column=Column(FLOAT, nullable=False, index=True))
-    flag_url: Optional[str] = Field(default=None, sa_column=Column(String, nullable=True))
+    currency_code: str = Field(default=None, sa_column=Column(String(3), nullable=False, index=True))
+    exchange_rate: float = Field(default=None, sa_column=Column(FLOAT, nullable=True))
+    estimated_gdp: float = Field(default=None, sa_column=Column(FLOAT, nullable=True))
+    flag: Optional[str] = Field(default=None, sa_column=Column(String(255), nullable=True))
     last_refreshed_at: datetime = Field(sa_column=Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False))
     @field_validator("name", "region", mode="before")
     @classmethod
@@ -39,6 +39,6 @@ class SummaryCache(SQLModel, table=True):
     
     # Stores the PNG image data as binary (BLOB)
     summary_image_data: bytes 
-    summary_text: str
-    filename: str
+    summary_text: str = Field(sa_column=Column(String(2048), nullable=False))
+    filename: str = Field(sa_column=Column(String(100), nullable=False))
     last_refreshed_at: datetime = Field(sa_column=Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False))

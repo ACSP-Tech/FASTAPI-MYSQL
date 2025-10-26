@@ -6,7 +6,7 @@ from .setup_main import configure_cors, register_exception_handlers
 from .middleware import LoggingMiddleware 
 
 #importing routers
-from .routers import root
+from .routers import root, country
 
 
 # --- Lifespan Context Manager ---
@@ -45,3 +45,4 @@ app.add_middleware(LoggingMiddleware)
 
 #including routes
 app.include_router(root.router)
+app.include_router(country.router)
