@@ -8,10 +8,10 @@ def normalize_mysql_url(url):
     """
     # Convert mysql:// to mysql+mysqldb://
     if url.startswith("mysql://") and not url.startswith("mysql+mysqldb://"):
-        url = url.replace("mysql://", "mysql+mysqldb://", 1)
+        url = url.replace("mysql://", "mysql+aiomysql://", 1)
         
     # Remove ?sslmode=require (common in cloud providers) - check if Aiven needs it
-    if "?sslmode=" in url:
+    if "?ssl-mode=" in url:
         url = url.split("?")[0]
     
     # Optional: Append charset settings if not present (often needed for MySQL)

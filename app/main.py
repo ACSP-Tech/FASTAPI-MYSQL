@@ -1,7 +1,7 @@
 #importing the necessary requirements
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
-from .databasesetup import init_db 
+from .databasesetup import init_db, engine
 from .setup_main import configure_cors, register_exception_handlers
 from .middleware import LoggingMiddleware 
 
@@ -21,6 +21,7 @@ async def lifespan(app: FastAPI):
     try:
         yield
     finally:
+        await engine.dispose()
         print("Application Shutdown: Cleanup complete.")
 
 # --- FastAPI Application Instance ---
